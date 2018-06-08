@@ -141,7 +141,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     sess.run(init)
 
     non_improving_iter = 0
-    avg = np.inf
+    previous_loss = np.inf
 
     for epoch in range(epochs):
         counter = 0
