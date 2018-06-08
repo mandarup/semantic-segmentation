@@ -158,7 +158,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
                                                                           learning_rate: 1e-4})
             avg += loss
             counter += 1
-            losses.append(avg / (1. * counter))
+            losses.append(loss)
             print("# Average cross entropy loss: {:.4}".format(avg / (1. * counter)))
 
         avg_epoch_loss =  np.mean(losses)
