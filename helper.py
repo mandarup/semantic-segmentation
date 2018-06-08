@@ -58,7 +58,7 @@ def maybe_download_pretrained_vgg(data_dir):
         os.remove(os.path.join(vgg_path, vgg_filename))
 
 
-def modify_picture(image, label):
+def modify_picture(image, label, image_shape):
 
     # flip
     if np.random.rand() > 0.5:
@@ -76,6 +76,10 @@ def modify_picture(image, label):
         max_zoom = 1.3
         image = scipy.ndimage.interpolation.shift(image, random.uniform(-1, 1))
         label = scipy.ndimage.interpolation.shift(label, random.uniform(-1, 1))
+
+    image = scipy.misc.imresize(image, image_shape)
+    gt_image = scipy.misc.imresize(label, image_shape)
+
 
     return image, label
 
@@ -116,7 +120,7 @@ def gen_batch_function(data_folder, image_shape):
                 images.append(image)
                 gt_images.append(gt_image)
 
-                image, gt_image = modify_picture(image, gt_image)
+                image, gt_image = modify_picture(image, gt_image, image_shape)
                 images.append(image)
                 gt_images.append(gt_image)
 
