@@ -116,9 +116,9 @@ def gen_batch_function(data_folder, image_shape):
                 images.append(image)
                 gt_images.append(gt_image)
 
-                # image, gt_image = modify_picture(image, gt_image)
-                # images.append(image)
-                # gt_images.append(gt_image)
+                image, gt_image = modify_picture(image, gt_image)
+                images.append(image)
+                gt_images.append(gt_image)
 
             yield np.array(images), np.array(gt_images)
     return get_batches_fn
