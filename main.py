@@ -147,6 +147,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     for epoch in range(epochs):
         counter = 0
         avg = 0.0
+        losses = []
+
         for image, label in get_batches_fn(batch_size):
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image,
                                                                           correct_label: label,
@@ -156,16 +158,21 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             counter += 1
 
             avg = avg / (1. * counter)
+            losses.append(avg)
 
-            print("##### Epoch {}, Average cross entropy loss: {:.4}".format(epoch, avg))
+            # print("##### Epoch {}, Average cross entropy loss: {:.4}".format(epoch, avg))
 
-        if avg > previous_loss:
+        avg_epoch_loss =  np.mean(avg)
+        print("##### Epoch {}, Average cross entropy loss: {:.4}"
+              .format(epoch, avg_epoch_loss))
+
+        if avg_epoch_loss > previous_loss:
             non_improving_iter += 1
         else:
             non_improving_iter = 0
-        previous_loss = avg
+        previous_loss = avg_epoch_loss
 
-        if non_improving_iter > 10:
+        if non_improving_iter > 5:
             print("!!!early stopping due to non improving loss")
             break
 
