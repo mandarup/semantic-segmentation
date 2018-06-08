@@ -156,7 +156,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             counter += 1
 
             avg = avg / (1. * counter)
-            print("##### Average cross entropy loss: {:.4}".format(avg))
+
+            print("##### Epoch {}, Average cross entropy loss: {:.4}".format(epoch, avg))
 
         if avg > previous_loss:
             non_improving_iter += 1
