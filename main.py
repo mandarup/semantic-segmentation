@@ -4,7 +4,7 @@ import helper
 import warnings
 from distutils.version import LooseVersion
 import project_tests as tests
-
+import numpy as np
 
 # Check TensorFlow Version
 assert LooseVersion(tf.__version__) >= LooseVersion('1.0'), 'Please use TensorFlow version 1.0 or newer.  You are using {}'.format(tf.__version__)
@@ -140,6 +140,11 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     init = tf.global_variables_initializer()
     sess.run(init)
 
+    non_improving_iter += 1
+else:
+    non_improving_iter = 0 = 0
+    previous_loss = np.inf
+
     for epoch in range(epochs):
         counter = 0
         avg = 0.0
@@ -151,6 +156,16 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             avg += loss
             counter += 1
             print("##### Average cross entropy loss: {:.4}".format(avg / (1. * counter)))
+
+        if avg > previous_loss:
+            non_improving_iter += 1
+        else:
+            non_improving_iter = 0
+        previous_loss = avg
+
+        if non_improving_iter > 10:
+            print("!!!early stopping due to non improving loss")
+            break
 
 
 tests.test_train_nn(train_nn)
