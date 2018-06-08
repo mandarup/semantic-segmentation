@@ -150,7 +150,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image,
                                                                           correct_label: label,
                                                                           keep_prob: 0.5,
-                                                                          learning_rate: 0.004})
+                                                                          learning_rate: 1e-4})
             avg += loss
             counter += 1
 
@@ -192,7 +192,7 @@ def run():
         get_batches_fn = helper.gen_batch_function(os.path.join(data_dir, 'data_road/training'), image_shape)
 
         epochs = 50
-        batch_size = 20
+        batch_size = 4
 
         # OPTIONAL: Augment Images for better results
         #  https://datascience.stackexchange.com/questions/5224/how-to-prepare-augment-images-for-neural-network
