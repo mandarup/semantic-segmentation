@@ -140,10 +140,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     init = tf.global_variables_initializer()
     sess.run(init)
 
-    non_improving_iter += 1
-else:
-    non_improving_iter = 0 = 0
-    previous_loss = np.inf
+    non_improving_iter = 0
+    avg = np.inf
 
     for epoch in range(epochs):
         counter = 0
