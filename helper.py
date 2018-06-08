@@ -77,10 +77,6 @@ def modify_picture(image, label, image_shape):
         image = scipy.ndimage.interpolation.shift(image, random.uniform(-1, 1))
         label = scipy.ndimage.interpolation.shift(label, random.uniform(-1, 1))
 
-    image = scipy.misc.imresize(image, image_shape)
-    gt_image = scipy.misc.imresize(label, image_shape)
-
-
     return image, label
 
 
@@ -120,9 +116,9 @@ def gen_batch_function(data_folder, image_shape):
                 images.append(image)
                 gt_images.append(gt_image)
 
-                image, gt_image = modify_picture(image, gt_image, image_shape)
-                images.append(image)
-                gt_images.append(gt_image)
+                # image, gt_image = modify_picture(image, gt_image, image_shape)
+                # images.append(image)
+                # gt_images.append(gt_image)
 
             yield np.array(images), np.array(gt_images)
     return get_batches_fn
