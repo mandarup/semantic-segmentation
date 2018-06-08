@@ -141,8 +141,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     init = tf.global_variables_initializer()
     sess.run(init)
 
-    non_improving_iter = 0
-    previous_loss = np.inf
+    # non_improving_iter = 0
+    # previous_loss = np.inf
 
     for epoch in range(epochs):
         counter = 0
@@ -151,22 +151,22 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image,
                                                                           correct_label: label,
                                                                           keep_prob: 0.5,
-                                                                          learning_rate: .0004})
+                                                                          learning_rate: 1e-4})
             avg += loss
             counter += 1
 
             avg = avg / (1. * counter)
             print("##### Average cross entropy loss: {:.4}".format(avg))
 
-        if avg > previous_loss:
-            non_improving_iter += 1
-        else:
-            non_improving_iter = 0
-        previous_loss = avg
-
-        if non_improving_iter > 10:
-            print("!!!early stopping due to non improving loss")
-            break
+        # if avg > previous_loss:
+        #     non_improving_iter += 1
+        # else:
+        #     non_improving_iter = 0
+        # previous_loss = avg
+        #
+        # if non_improving_iter > 10:
+        #     print("!!!early stopping due to non improving loss")
+        #     break
 
 
 tests.test_train_nn(train_nn)
